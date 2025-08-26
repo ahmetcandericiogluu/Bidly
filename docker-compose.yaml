@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  # PHP - Symfony backend
+  php:
+    build: ./docker/php
+    container_name: bidly-php
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - db
+
+  # Nginx - Web server
+  nginx:
+    image: nginx:alpine
+    container_name: bidly-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+  # PostgreSQL - Database
+  db:
+    image: postgres:15
+    container_name: bidly-db
+    environment:
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: symfony
+      POSTGRES_DB: bidly
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:
