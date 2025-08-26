@@ -1,47 +1,55 @@
-# ---- Symfony (Backend) ----
-/backend/vendor/
-/backend/var/
-/backend/.env.local
-/backend/.env.*.local
-/backend/public/bundles/
-/backend/node_modules/
-/backend/.phpunit.result.cache
-/backend/phpunit.xml
-/backend/phpunit.xml.dist
+# ==== Root / Env ====
+/.env
+/.env.*
 
-# Logs
-/backend/var/logs/
-*.log
-
-# Cache
-/backend/var/cache/
-.cache
-
-# IDE / Editor
+# ==== IDE / Editor ====
 /.idea/
 /.vscode/
 /*.iml
 
-# ---- React (Frontend) ----
+# ==== OS / Misc ====
+.DS_Store
+Thumbs.db
+
+# ==== Symfony (Backend) ====
+/backend/vendor/
+/backend/var/
+/backend/var/cache/
+/backend/var/log/            # doğru dizin (log), logs değil
+/backend/public/bundles/
+/backend/public/uploads/     # kullanıcı uploadları (içine .gitkeep bırakabilirsin)
+# Env files
+/backend/.env
+/backend/.env.*
+# Tests / tools caches
+/backend/.phpunit.result.cache
+/backend/.php-cs-fixer.cache
+# Keep phpunit.xml.dist, ignore only local one
+/backend/phpunit.xml
+# (Varsa) frontend araçları backend'e kurulmuşsa
+/backend/node_modules/
+
+# ==== React (Frontend) ====
 /frontend/node_modules/
 /frontend/build/
-/frontend/.env.local
-/frontend/.env.development.local
-/frontend/.env.test.local
-/frontend/.env.production.local
-
-# Logs
+/frontend/dist/
+/frontend/.env
+/frontend/.env.*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.pnp.cjs
+.pnp.data.json
 
-# ---- Docker ----
+# ==== Docker (Volumes / local overrides) ====
 /docker/db_data/
 /docker/redis_data/
 /docker/rabbitmq_data/
 /docker/elasticsearch_data/
+/docker/nginx/logs/
+/backend/compose.override.yaml   # kişisel override ise ignore et
 
-# ---- OS / Misc ----
-.DS_Store
-Thumbs.db
+# ==== Reports / Coverage ====
+/coverage/
+*.log
