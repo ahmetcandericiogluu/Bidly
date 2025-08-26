@@ -1,6 +1,6 @@
 # ==== Root / Env ====
 /.env
-/.env.*
+/.env.dev
 
 # ==== IDE / Editor ====
 /.idea/
@@ -20,7 +20,7 @@ Thumbs.db
 /backend/public/uploads/     # kullanıcı uploadları (içine .gitkeep bırakabilirsin)
 # Env files
 /backend/.env
-/backend/.env.*
+/backend/.env.dev
 # Tests / tools caches
 /backend/.phpunit.result.cache
 /backend/.php-cs-fixer.cache
@@ -34,7 +34,7 @@ Thumbs.db
 /frontend/build/
 /frontend/dist/
 /frontend/.env
-/frontend/.env.*
+/frontend/.env.dev
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
