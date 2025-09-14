@@ -6,7 +6,10 @@ use App\Repository\BidRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: BidRepository::class)]
+#[ORM\Table(name: 'bid')]
+
 class Bid
 {
     #[ORM\Id]
