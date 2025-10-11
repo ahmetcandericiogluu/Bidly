@@ -16,6 +16,15 @@ class VendorRepository extends ServiceEntityRepository
         parent::__construct($registry, Vendor::class);
     }
 
+    public function findOneByEmail(string $email): ?Vendor
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Vendor[] Returns an array of Vendor objects
     //     */

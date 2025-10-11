@@ -6,6 +6,16 @@ use App\Exception\Auth\InvalidPasswordException;
 
 trait PasswordValidationTrait
 {
+    protected function isStrongPassword(string $password): bool
+    {
+        // En az 8 karakter, büyük harf, küçük harf, rakam ve özel karakter kontrolü
+        return strlen($password) >= 8 
+            && preg_match('/[A-Z]/', $password)
+            && preg_match('/[a-z]/', $password) 
+            && preg_match('/[0-9]/', $password)
+            && preg_match('/[!@#$%^&*()\-_=+{};:,<.>]/', $password);
+    }
+
     protected function validatePasswordComplexity(string $password): void
     {
         $rules = [

@@ -7,6 +7,11 @@ use App\Repository\CustomerRepository;
 
 trait EmailValidationTrait
 {
+    protected function isValidEmail(string $email): bool
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
     protected function validateEmailUniqueness(string $email, CustomerRepository $repository): void
     {
         if ($repository->findOneByEmail($email)) {

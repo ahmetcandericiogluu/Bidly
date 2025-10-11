@@ -2,6 +2,7 @@
 
 namespace App\Validator;
 
+use App\Exception\ValidationException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 abstract class BaseValidator
