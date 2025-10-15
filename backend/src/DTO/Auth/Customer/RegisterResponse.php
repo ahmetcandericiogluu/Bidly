@@ -2,32 +2,20 @@
 
 namespace App\DTO\Auth\Customer;
 
-class RegisterResponse
+class RegisterResponse implements \JsonSerializable
 {
     public function __construct(
         private readonly bool $success,
         private readonly ?array $errors = null,
-        private readonly ?string $error = null,
         private readonly ?string $customerId = null
     ) {}
 
-    public function isSuccess(): bool
+    public function jsonSerialize(): array
     {
-        return $this->success;
-    }
-
-    public function getErrors(): ?array
-    {
-        return $this->errors;
-    }
-
-    public function getError(): ?string
-    {
-        return $this->error;
-    }
-
-    public function getCustomerId(): ?string
-    {
-        return $this->customerId;
+        return [
+            'success' => $this->success,
+            'errors' => $this->errors,
+            'customerId' => $this->customerId
+        ];
     }
 }

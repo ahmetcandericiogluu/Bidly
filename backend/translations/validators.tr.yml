@@ -1,0 +1,26 @@
+auth:
+  validation:
+    invalid_request: 'Geçersiz istek formatı'
+    email:
+      required: 'Email alanı zorunludur'
+      invalid: 'Geçerli bir email adresi giriniz'
+      exists: 'Bu email adresi zaten kayıtlı'
+      not_found: 'Bu email adresi ile kayıtlı kullanıcı bulunamadı'
+    password:
+      required: 'Şifre alanı zorunludur'
+      min_length: 'Şifre en az {{ limit }} karakter olmalıdır'
+      max_length: 'Şifre en fazla {{ limit }} karakter olabilir'
+      complexity: 'Şifre en az bir büyük harf, bir küçük harf ve bir rakam içermelidir'
+      invalid: 'Şifre hatalı'
+      uppercase: 'Şifre en az bir büyük harf içermelidir'
+      lowercase: 'Şifre en az bir küçük harf içermelidir'
+      number: 'Şifre en az bir rakam içermelidir'
+      special_char: 'Şifre en az bir özel karakter içermelidir'
+    name:
+      required: 'İsim alanı zorunludur'
+  errors:
+    login:
+      failed: 'Email veya şifre hatalı'
+      account_inactive: 'Hesabınız aktif değil'
+    register:
+      failed: 'Kayıt işlemi başarısız'

@@ -4,42 +4,72 @@ namespace App\Validator\Auth\Customer;
 
 use App\DTO\Auth\Customer\RegisterRequest;
 use App\Repository\CustomerRepository;
-use App\Validator\Traits\EmailValidationTrait;
-use App\Validator\Traits\PasswordValidationTrait;
+use App\Trait\TranslatorTrait;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegisterValidator
 {
-    use EmailValidationTrait;
-    use PasswordValidationTrait;
+    use TranslatorTrait;
 
     public function __construct(
         private readonly ValidatorInterface $validator,
-        private readonly CustomerRepository $customerRepository
+        private readonly CustomerRepository $customerRepository,
+        private readonly TranslatorInterface $translator
     ) {}
 
     public function validate(object $data): void
     {
         if (!$data instanceof RegisterRequest) {
-            throw new \InvalidArgumentException('Data must be instance of RegisterRequest');
+            throw new \InvalidArgumentException($this->trans('auth.validation.invalid_request'));
         }
 
-        // 1. Symfony constraint validasyonları (DTO üzerindeki annotationlar)
+        // DTO üzerindeki annotation validasyonları
         $errors = $this->validator->validate($data);
         if (count($errors) > 0) {
             $errorMessages = [];
             foreach ($errors as $error) {
                 $errorMessages[] = $error->getMessage();
             }
-            throw new ValidationException($errorMessages);
+            throw new \Exception(implode(', ', $errorMessages));
         }
 
-        // 2. Email validasyonları
-        $this->validateEmailFormat($data->getEmail());
-        $this->validateEmailUniqueness($data->getEmail(), $this->customerRepository);
+        $this->validateEmail($data->getEmail());
 
-        // 3. Şifre validasyonları
-        $this->validatePasswordLength($data->getPassword());
-        $this->validatePasswordComplexity($data->getPassword());
+        $this->validatePassword($data->getPassword());
+    }
+
+    private function validateEmail(string $email): void
+    {
+        if ($this->customerRepository->findOneByEmail($email)) {
+            throw new \Exception($this->trans('auth.validation.email.exists'));
+        }
+    }
+
+    private function validatePassword(string $password): void
+    {
+        if (strlen($password) < 8) {
+            throw new \Exception($this->trans('auth.validation.password.min_length', ['limit' => 8]));
+        }
+
+        if (strlen($password) > 50) {
+            throw new \Exception($this->trans('auth.validation.password.max_length', ['limit' => 50]));
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            throw new \Exception($this->trans('auth.validation.password.uppercase'));
+        }
+
+        if (!preg_match('/[a-z]/', $password)) {
+            throw new \Exception($this->trans('auth.validation.password.lowercase'));
+        }
+
+        if (!preg_match('/[0-9]/', $password)) {
+            throw new \Exception($this->trans('auth.validation.password.number'));
+        }
+
+        if (!preg_match('/[!@#$%^&*()\-_=+{};:,<.>]/', $password)) {
+            throw new \Exception($this->trans('auth.validation.password.special_char'));
+        }
     }
 }
